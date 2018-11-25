@@ -19,7 +19,6 @@ services:
 
 # NGINX #############################################
   nginx:
-    container_name: server_nginx
     build: 
       context: ./nginx
       # args:
@@ -40,7 +39,6 @@ services:
       - backend
 
   go_server:
-    container_name: server_go
     build: 
       context: ./go_server
       args:

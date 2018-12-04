@@ -10,6 +10,7 @@ func main() {
 }
 
 func serverStart() {
+	fmt.Println("from www/hook")
 	fmt.Println("route: http://localhost:9090/")
 	fmt.Println("route: http://localhost:9090/hello")
 	mux := http.NewServeMux()

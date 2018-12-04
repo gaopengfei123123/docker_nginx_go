@@ -9,7 +9,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
 # 运行容器
 FROM alpine:latest AS runner
 RUN apk --no-cache add ca-certificates
-WORKDIR /root/
+WORKDIR /www/site/
 COPY --from=builder /go/src/go-server/app .
 EXPOSE 9090
 CMD [ "./app" ]

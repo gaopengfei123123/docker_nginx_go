@@ -1,28 +1,46 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/gin-gonic/gin"
+	"io/ioutil"
 	"net/http"
 )
 
 func main() {
-	serverStart()
+	r := gin.Default()
+
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
+
+	r.POST("hook", func(c *gin.Context) {
+		var jsonp map[string]interface{}
+
+		if c.BindJSON(&jsonp) == nil {
+			saveToFile(jsonp)
+			c.JSON(http.StatusOK, jsonp)
+		} else {
+			c.JSON(http.StatusOK, gin.H{"message": "false"})
+		}
+	})
+
+	r.Run(":9090")
 }
 
-func serverStart() {
-	fmt.Println("from www/hook")
-	fmt.Println("route: http://localhost:9090/")
-	fmt.Println("route: http://localhost:9090/hello")
-	mux := http.NewServeMux()
-	mux.HandleFunc("/hello", helloHandler)
-	mux.HandleFunc("/", pageHandler)
-	http.ListenAndServe(":9090", mux)
-}
+func saveToFile(jsonp map[string]interface{}) {
+	jsonByte, err := json.Marshal(jsonp)
 
-func helloHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("hello world"))
-}
+	if err != nil {
+		fmt.Println("error:", err)
+	}
 
-func pageHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("hi baby"))
+	err = ioutil.WriteFile("./hook.json", jsonByte, 0755)
+
+	if err != nil {
+		fmt.Println("error:", err)
+	}
 }

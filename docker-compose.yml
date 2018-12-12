@@ -43,8 +43,8 @@ services:
       context: ./go_server
       args:
         - APP_PATH=${GO_APP_PATH}
-    ports:
-      - 9090:9090
+    # ports:
+    #   - 9090:9090
     networks:
       - backend
     

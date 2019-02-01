@@ -44,7 +44,7 @@ services:
       context: .
       dockerfile: ./go_server/Dockerfile
       args:
-        - APP_PATH=./www/example/
+        - APP_PATH=./www/example/     #  代码地址
     networks:
       - backend
     restart: on-failure

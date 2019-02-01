@@ -22,3 +22,8 @@ docker-compose up
 
 可以参考 `nginx/conf.d/default.conf.example`里面的写法, 证书文件放在`nginx/cert/`底下
 
+### 如何新增一个go服务
+1. 先把代码文件放到 `www`目录下, 和 `$GOPATH/src` 一样, 而且要把外部依赖文件放到vendor包里面
+2. 然后在 `docker-compose.yml` 参考`example_server`写一个server
+3. 然后在`nginx/site` 底下加上相应的nginx配置, **要加上upstream的配置, 参考`nginx/conf.d/upstream.cof`
+

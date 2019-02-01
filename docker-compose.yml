@@ -34,17 +34,18 @@ services:
       - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
       - ./nginx/sites/:/etc/nginx/sites/
       - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./nginx/cert/:/etc/nginx/cert/
     networks:
       - frontend
       - backend
 
   go_server:
     build: 
-      context: ./go_server
+      # context: ./www
+      # dockerfile: ./go_server/Dockerfile
+       context: ./go_server
       args:
         - APP_PATH=${GO_APP_PATH}
-    # ports:
-    #   - 9090:9090
     networks:
       - backend
     
